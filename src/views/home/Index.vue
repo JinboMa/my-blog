@@ -3,6 +3,7 @@
     h1 {{ $t('首页') }}
     router-link(to="/test") test
     .content
+        a.waves-effect.waves-light.btn test
 </template>
 <script>
 

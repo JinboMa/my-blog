@@ -2,7 +2,7 @@
 #app
 	home-nav
 	router-view
-	.fixed-action-btn.click-to-toggle
+	.fixed-action-btn
 		a.btn-floating.btn-large.red
 			i.large.material-icons mode_edit
 		ul

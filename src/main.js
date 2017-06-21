@@ -8,9 +8,7 @@ import mixin from '@/mixin'
 
 import '../static/animate/animate.min.css'
 import '../static/icons/icon.css'
-import 'jquery'
 import 'materialize-css/dist/css/materialize.min.css'
-import 'materialize-css/dist/js/materialize.js'
 
 Vue.config.productionTip = false
 Vue.mixin(mixin)
