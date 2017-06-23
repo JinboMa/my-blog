@@ -1,6 +1,6 @@
 <template lang="pug">
 nav.home-nav(:class="navSetting.navClass")
-    .nav-wrapper.container
+    .nav-wrapper.container.hide-on-small-only
         a.brand-logo(v-if="navSetting.showLogo",
             :class="[navSetting.logoPosition]")
             | {{ $t(navSetting.logo) }}

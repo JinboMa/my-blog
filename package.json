@@ -16,7 +16,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "jquery": "^3.2.1",
-    "materialize-css": "^0.98.2",
+    "materialize-css": "^0.99.0",
     "vue": "^2.2.6",
     "vue-router": "^2.3.1",
     "vuex": "^2.3.1"

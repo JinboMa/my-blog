@@ -1,18 +1,15 @@
 <template lang="pug">
 .home-page
-    h1 {{ $t('首页') }}
-    router-link(to="/test") test
-    .content
-        a.waves-effect.waves-light.btn test
+    blog-list
 </template>
 <script>
-
+import BlogList from './components/BlogList'
 export default {
-
+    components: { BlogList }
 }
 </script>
 
 <style scoped lang="stylus">
-.content
+.home-page
     height 2000px
 </style>

@@ -1,17 +1,14 @@
 <template lang="pug">
 #app
 	home-nav
-	router-view
+	router-view.container
 	.fixed-action-btn
-		a.btn-floating.btn-large.red
-			i.large.material-icons mode_edit
-		ul
-			li
-				a.btn-floating.green(href="#!")
-					i.material-icons insert_chart
-			li
-				a.btn-floating.blue(href="#!")
-					i.material-icons publish
+		.row
+			a.btn-floating.green
+				i.material-icons insert_chart
+		.row
+			a.btn-floating.blue(@click="scrollToTop")
+				i.material-icons publish
 </template>
 
 <script>
@@ -21,6 +18,11 @@ export default {
 	name: 'app',
 	components: {
 		HomeNav
+	},
+	methods: {
+		scrollToTop() {
+			$('body').animate({ scrollTop: 0 }, 500)
+		}
 	}
 }
 </script>
