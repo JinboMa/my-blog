@@ -1,16 +1,17 @@
 <template lang="pug">
-nav.home-nav(:class="navSetting.navClass")
-    .nav-wrapper.container.hide-on-small-only
-        a.brand-logo(v-if="navSetting.showLogo",
-            :class="[navSetting.logoPosition]")
-            | {{ $t(navSetting.logo) }}
-        ul(:class="[navSetting.navPosition]")
-            li(v-for="item in navList", :key="item.blog",
-                :class="{active:active==item.path}")
-                router-link(:to="item.path") {{ $t(item.text) }}
-                    i.material-icons(v-if="item.icon",
-                        :class="item.icon_class")
-                        | {{ item.icon }}
+header
+    nav.home-nav(:class="navSetting.navClass")
+        .nav-wrapper.container
+            a.brand-logo(v-if="navSetting.showLogo",
+                :class="[navSetting.logoPosition]")
+                | {{ $t(navSetting.logo) }}
+            ul(:class="[navSetting.navPosition]")
+                li(v-for="item in navList", :key="item.blog",
+                    :class="{active:active==item.path}")
+                    router-link(:to="item.path") {{ $t(item.text) }}
+                        i.material-icons(v-if="item.icon",
+                            :class="item.icon_class")
+                            | {{ item.icon }}
 </template>
 
 <script>

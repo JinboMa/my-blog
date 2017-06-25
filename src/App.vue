@@ -1,23 +1,26 @@
 <template lang="pug">
 #app
-	home-nav
-	router-view.container
+	my-header
+	main
+		router-view.container
 	.fixed-action-btn
 		.row
 			a.btn-floating.green
-				i.material-icons insert_chart
+				i.material-icons person_pin
 		.row
-			a.btn-floating.blue(@click="scrollToTop")
+			a.btn-floating.blue(@click="scrollToTop", :title="$t('回顶部')")
 				i.material-icons publish
+	my-footer
 </template>
 
 <script>
-import HomeNav from './components/HomeNav'
+import MyHeader from './components/MyHeader'
+import MyFooter from './components/MyFooter'
 
 export default {
 	name: 'app',
 	components: {
-		HomeNav
+		MyHeader, MyFooter
 	},
 	methods: {
 		scrollToTop() {
@@ -29,6 +32,5 @@ export default {
 
 <style lang="stylus">
 @import './styl/init'
-#app
-	position relative 
+
 </style>
