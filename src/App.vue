@@ -1,31 +1,28 @@
 <template lang="pug">
 #app
+	loading(:progress="PROGRESS")
 	my-header
 	main
 		router-view.container
-	.fixed-action-btn
-		.row
-			a.btn-floating.green
-				i.material-icons person_pin
-		.row
-			a.btn-floating.blue(@click="scrollToTop", :title="$t('回顶部')")
-				i.material-icons publish
 	my-footer
+	home-buttons
 </template>
 
 <script>
+import Loading from './components/Loading'
 import MyHeader from './components/MyHeader'
 import MyFooter from './components/MyFooter'
+import HomeButtons from './components/HomeButtons'
+
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
 	name: 'app',
 	components: {
-		MyHeader, MyFooter
+		MyHeader, MyFooter, HomeButtons, Loading
 	},
-	methods: {
-		scrollToTop() {
-			$('body').animate({ scrollTop: 0 }, 500)
-		}
+	computed: {
+		...mapGetters(['PROGRESS'])
 	}
 }
 </script>

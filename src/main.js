@@ -3,6 +3,7 @@ import App from '@/App'
 import router from '@/router'
 import i18n from '@/i18n'
 import utils from '@/utils'
+import store from '@/store'
 import mock from 'mock'
 import mixin from '@/mixin'
 
@@ -18,7 +19,7 @@ document.documentElement.style.fontSize = '14px'
 
 window.vm = new Vue({
 	el: '#app',
-	router, i18n, utils,
+	router, i18n, utils, store,
 	template: '<App/>',
 	components: { App }
 })

@@ -14,7 +14,7 @@ ul.pagination
 <script>
 export default {
     computed: {
-        showList(){
+        showList() {
             var max = this.max,
                 pages = this.pages,
                 first = 0,
@@ -25,15 +25,15 @@ export default {
                 _first = value - left,
                 _last = value + right,
                 showArr = []
-            if(_first < 0){
+            if (_first < 0) {
                 _last += -_first
                 _first = 0
-            }else if(_last > last){
+            } else if (_last > last) {
                 _first -= _last - last
                 _last = last
             }
-            for(let i = 0; i <= last; i++){
-                if(i >= _first && i <= _last){
+            for (let i = 0; i <= last; i++) {
+                if (i >= _first && i <= _last) {
                     showArr.push({
                         index: i,
                         text: pages[i]
@@ -54,17 +54,17 @@ export default {
         },
         pages: {
             type: [Array],
-            default: () => [1,2,3,4,5,6,7,8,9,10]
+            default: () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         }
     },
     methods: {
-        changeActive(page){
-            this.$emit('input',page)
+        changeActive(page) {
+            this.$emit('input', page)
         },
-        previous(){
+        previous() {
             this.$emit('input', this.value - 1)
         },
-        next(){
+        next() {
             this.$emit('input', this.value + 1)
         }
     }
