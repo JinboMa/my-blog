@@ -324,3 +324,185 @@ asyncFunction(1).then(res => console.log(res))
     "not ie <= 8"
   ]
 }
+
+### pptlive build/dev-server.js
+
+var markdown = require('../config/markdown')
+
+app.get('/markdown', function (req, res) {
+  res.send(markdown())
+})
+
+### pptlive config/markdown.js
+
+let fs = require('fs')
+let marked = require('marked')
+let highlight = require('highlight.js')
+let Prism = require('prismjs')
+let path = require('path')
+let mdPath = path.join(__dirname, '../show.md')
+
+marked.setOptions({
+  highlight: function (code) {
+    // return highlight.highlightAuto(code).value
+    return Prism.highlight(code, Prism.languages.javascript)
+  }
+})
+
+function markdown() {
+  let res = { con: '', page: 'home', children: [] }
+  let str = fs.readFileSync(mdPath, 'utf-8')
+  let children = str.split(/[\n\r\s]##\s/)
+  res.con = marked(children.shift())
+  children.forEach((child, index) => {
+    let second_res = { con: '', page: '', children: [] }
+    let seconds = child.split(/[\n\r\s]###\s/)
+    let childrenData = []
+    second_res.con = marked(`## ${seconds.shift()}`)
+    second_res.page = `${index + 1}`
+    seconds.forEach((item, num) => {
+      childrenData.push({
+        con: marked(`### ${item}`),
+        page: `${index + 1}-${num + 1}`
+      })
+    })
+    second_res.children = childrenData
+    res.children.push(second_res)
+  })
+  return res
+}
+markdown()
+module.exports = markdown
+
+### pptlive readme
+
+# live-ppt
+
+## 使用环境
+
+- "node": ">= 4.0.0" (推荐7.6.0)
+
+- "npm": ">= 3.0.0"
+
+## 使用步骤
+
+- 替换跟路径的 `show.md`文件（文件名不能修改）
+
+- 文件根路径运行 `npm install`
+
+- 安装完成后运行 `npm run dev`
+
+- 注:项目启动在 `http://localhost:2500`
+
+- 注:页面右下角为控制器
+
+## 快捷键
+
+- `home` => 回到首页
+
+- `PageUp` => 放大
+
+- `PageDown` => 缩小
+
+- `ctrl + Enter` => 刷新
+
+- `方向键` => 上下左右
+
+## 配置项
+
+- 文件名修改: `./config/markdown.js` -> `let mdPath = path.join(__dirname, '../show.md')`
+
+- 样式修改: `./src/assets/styl/setting.styl` -> 根据需要修改即可
+
+## markdown格式
+
+- `#` => 首页
+
+- `##` => 二级目录
+
+- `###` => 三级目录
+
+- 注意:`#`之后的内容到下一个遇到的`##`都为首页内容
+
+- 注意:`##`之后的内容到下一个遇到的`###`或`##`都为二级目录的内容
+
+- 注意:`###`之后的内容到下一个遇到的`###`都为三级目录的内容
+
+## 其他
+
+- [eslint standard 规则文档](https://github.com/standard/standard/blob/master/docs/README-zhcn.md)
+
+### pptlive main.js
+
+import Vue from 'vue'
+import App from './App'
+
+Vue.config.productionTip = false
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  template: '<App/>',
+  components: { App }
+})
+
+### pptlive App.vue
+
+<template lang="pug">
+  .app
+    //- show-img(url="./static/imgs/1.png")
+    //- show-img(url="./static/imgs/2.png")
+    //- show-img(url="./static/imgs/3.png")
+    control(v-model="currentPage", @getMarkdown="getMarkdown", :data="children")
+    transition(enter-active-class="animated fadeInLeft", leave-active-class="animated fadeOutUp")
+      home(:content="home.con", v-show="currentPage === home.page")
+    second(v-for="second in children", :key="second.page", :content="second.con" v-show="currentPage === second.page")
+    .child(v-for="second in children", :key="second.page")
+      third(v-for="third in second.children", :key="third.page", :content="third.con", v-show="currentPage === third.page")
+</template>
+
+<script>
+import axios from 'axios'
+import Home from '@/components/page/Home'
+import Second from '@/components/page/Second'
+import Third from '@/components/page/Third'
+import Control from '@/components/Control'
+import ShowImg from '@/components/ShowImg'
+export default {
+  name: 'app',
+  components: { Home, Second, Third, Control, ShowImg },
+  data () {
+    return {
+      home: {
+        con: '',
+        page: 'home'
+      },
+      children: [],
+      currentPage: 'home'
+    }
+  },
+  created () {
+    this.getMarkdown()
+  },
+  methods: {
+    getMarkdown () {
+      axios.get('/markdown').then(res => {
+        this.home = {
+          con: res.data.con,
+          page: res.data.page
+        }
+        this.children = res.data.children
+      })
+    }
+  }
+}
+</script>
+
+<style lang="stylus">
+@import '../static/font-awesome/css/font-awesome.min.css'
+@import '../static/animate.css'
+@import './assets/styl/common/init'
+@import './assets/styl/common/code'
+@import './assets/styl/page/home'
+@import './assets/styl/page/second'
+@import './assets/styl/page/third'
+</style>
